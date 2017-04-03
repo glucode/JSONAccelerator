@@ -1,20 +1,8 @@
-//
-//  {CLASSNAME}.m
-//
-//  Created by __NAME__ on {DATE}
-//  Copyright (c) {COMPANY_NAME}. All rights reserved.
-//
-
 #import "{CLASSNAME}.h"
+#import "NSDictionary+ObjectOrNullForKey.h"
 {IMPORT_BLOCK}
 
 {STRING_CONSTANT_BLOCK}
-
-@interface {CLASSNAME} ()
-
-- (id)objectOrNilForKey:(id)aKey fromDictionary:(NSDictionary *)dict;
-
-@end
 
 @implementation {CLASSNAME}
 
@@ -46,13 +34,6 @@
 - (NSString *)description  {
     return [NSString stringWithFormat:@"%@", [self dictionaryRepresentation]];
 }
-
-#pragma mark - Helper Method
-- (id)objectOrNilForKey:(id)aKey fromDictionary:(NSDictionary *)dict {
-    id object = [dict objectForKey:aKey];
-    return [object isEqual:[NSNull null]] ? nil : object;
-}
-
 
 #pragma mark - NSCoding Methods
 

@@ -1,19 +1,10 @@
-//
-//  {CLASSNAME}.h
-//
-//  Created by __NAME__ on {DATE}
-//  Copyright (c) {COMPANY_NAME}. All rights reserved.
-//
-
 #import <Foundation/Foundation.h>
+#import "JSONSerialization.h"
 
 {FORWARD_DECLARATION}
 
-@interface {CLASSNAME} : {BASEOBJECT} <NSCoding, NSCopying>
+@interface {CLASSNAME} : {BASEOBJECT} <NSCoding, NSCopying, JSONSerialization>
 
 {PROPERTIES}
-+ (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
-- (instancetype)initWithDictionary:(NSDictionary *)dict;
-- (NSDictionary *)dictionaryRepresentation;
 
 @end

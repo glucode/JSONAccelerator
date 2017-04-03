@@ -388,7 +388,7 @@
                     NSString *classPrefix = (self.languageChooserViewController).classPrefix;
                     
                     if (!classPrefix) {
-                        classPrefix = @"";
+                        classPrefix = @"WSG";
                     }
                         
                     writer = [[OutputLanguageWriterObjectiveC alloc] init];

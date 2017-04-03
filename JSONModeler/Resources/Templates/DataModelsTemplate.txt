@@ -1,7 +1,0 @@
-//
-//  DataModels.h
-//
-//  Created by __NAME__ on {DATE}
-//  Copyright (c) {COMPANY_NAME}. All rights reserved.
-//
-

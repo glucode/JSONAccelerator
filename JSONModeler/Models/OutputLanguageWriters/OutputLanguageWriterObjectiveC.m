@@ -489,13 +489,13 @@
             break;
 
         case PropertyTypeInt:
-            value = [NSString stringWithFormat:@"[NSNumber numberWithInt:self.%@]", [property.name lowercaseCamelcaseString]];
+            value = [NSString stringWithFormat:@"@(self.%@)", [property.name lowercaseCamelcaseString]];
             break;
         case PropertyTypeBool:
-            value = [NSString stringWithFormat:@"[NSNumber numberWithBool:self.%@]", [property.name lowercaseCamelcaseString]];
+            value = [NSString stringWithFormat:@"@(self.%@)", [property.name lowercaseCamelcaseString]];
             break;
         case PropertyTypeDouble:
-            value = [NSString stringWithFormat:@"[NSNumber numberWithDouble:self.%@]", [property.name lowercaseCamelcaseString]];
+            value = [NSString stringWithFormat:@"@(self.%@)", [property.name lowercaseCamelcaseString]];
             break;
         case PropertyTypeArray:
             NSAssert(NO, @"This shouldn't happen");
@@ -587,7 +587,7 @@
     NSString *setterString = @"";
     
     if (property.isClass && (property.type == PropertyTypeDictionary || property.type == PropertyTypeClass)) {
-        setterString = [setterString stringByAppendingFormat:@"            self.%@ = [%@ modelObjectWithDictionary:[dict objectForKey:%@]];\n", property.name, property.referenceClass.className, [self stringConstantForProperty:property]];
+        setterString = [setterString stringByAppendingFormat:@"            self.%@ = [%@ modelObjectWithDictionary:dict[%@]];\n", property.name, property.referenceClass.className, [self stringConstantForProperty:property]];
 
     } else if (property.type == PropertyTypeArray && property.referenceClass != nil) {
 #ifndef COMMAND_LINE
@@ -596,7 +596,7 @@
         NSString *interfaceTemplate = [mainBundle pathForResource:@"ArraySetterTemplate" ofType:@"txt"];
         NSString *templateString = [[NSString alloc] initWithContentsOfFile:interfaceTemplate encoding:NSUTF8StringEncoding error:nil];
 #else 
-        NSString *templateString = @"    NSObject *received{REFERENCE_CLASS} = [dict objectForKey:{JSONNAME}];\n    NSMutableArray *parsed{REFERENCE_CLASS} = [NSMutableArray array];\n    if ([received{REFERENCE_CLASS} isKindOfClass:[NSArray class]]) {\n        for (NSDictionary *item in (NSArray *)received{REFERENCE_CLASS}) {\n            if ([item isKindOfClass:[NSDictionary class]]) {\n                [parsed{REFERENCE_CLASS} addObject:[{REFERENCE_CLASS} modelObjectWithDictionary:item]];\n            }\n       }\n    } else if ([received{REFERENCE_CLASS} isKindOfClass:[NSDictionary class]]) {\n       [parsed{REFERENCE_CLASS} addObject:[{REFERENCE_CLASS} modelObjectWithDictionary:(NSDictionary *)received{REFERENCE_CLASS}]];\n    }\n\n    self.{SETTERNAME} = [NSArray arrayWithArray:parsed{REFERENCE_CLASS}];\n";
+        NSString *templateString = @"    NSObject *received{REFERENCE_CLASS} = dict[{JSONNAME}];\n    NSMutableArray *parsed{REFERENCE_CLASS} = [NSMutableArray array];\n    if ([received{REFERENCE_CLASS} isKindOfClass:[NSArray class]]) {\n        for (NSDictionary *item in (NSArray *)received{REFERENCE_CLASS}) {\n            if ([item isKindOfClass:[NSDictionary class]]) {\n                [parsed{REFERENCE_CLASS} addObject:[{REFERENCE_CLASS} modelObjectWithDictionary:item]];\n            }\n       }\n    } else if ([received{REFERENCE_CLASS} isKindOfClass:[NSDictionary class]]) {\n       [parsed{REFERENCE_CLASS} addObject:[{REFERENCE_CLASS} modelObjectWithDictionary:(NSDictionary *)received{REFERENCE_CLASS}]];\n    }\n\n    self.{SETTERNAME} = [NSArray arrayWithArray:parsed{REFERENCE_CLASS}];\n";
 #endif
         templateString = [templateString stringByReplacingOccurrencesOfString:@"{JSONNAME}" withString:[self stringConstantForProperty:property]];
         templateString = [templateString stringByReplacingOccurrencesOfString:@"{SETTERNAME}" withString:property.name];
@@ -606,14 +606,14 @@
         setterString = [setterString stringByAppendingString:[NSString stringWithFormat:@"            self.%@ = ", [property.name lowercaseCamelcaseString]]];
         
         if (property.type == PropertyTypeInt) {
-            setterString = [setterString stringByAppendingFormat:@"[[self objectOrNilForKey:%@ fromDictionary:dict] intValue];\n", [self stringConstantForProperty:property]];
+            setterString = [setterString stringByAppendingFormat:@"[[NSDictionary objectOrNilForKey:%@ fromDictionary:dict] intValue];\n", [self stringConstantForProperty:property]];
         } else if (property.type == PropertyTypeDouble) {
-            setterString = [setterString stringByAppendingFormat:@"[[self objectOrNilForKey:%@ fromDictionary:dict] doubleValue];\n", [self stringConstantForProperty:property]];
+            setterString = [setterString stringByAppendingFormat:@"[[NSDictionary objectOrNilForKey:%@ fromDictionary:dict] doubleValue];\n", [self stringConstantForProperty:property]];
         } else if (property.type == PropertyTypeBool) {
-            setterString = [setterString stringByAppendingFormat:@"[[self objectOrNilForKey:%@ fromDictionary:dict] boolValue];\n", [self stringConstantForProperty:property]];
+            setterString = [setterString stringByAppendingFormat:@"[[NSDictionary objectOrNilForKey:%@ fromDictionary:dict] boolValue];\n", [self stringConstantForProperty:property]];
         } else {
             // It's a normal class type
-            setterString = [setterString stringByAppendingFormat:@"[self objectOrNilForKey:%@ fromDictionary:dict];\n", [self stringConstantForProperty:property]];
+            setterString = [setterString stringByAppendingFormat:@"[NSDictionary objectOrNilForKey:%@ fromDictionary:dict];\n", [self stringConstantForProperty:property]];
         }
     }
     
