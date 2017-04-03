@@ -170,6 +170,56 @@
         filesHaveHadError = YES;
     }
 #endif
+
+#ifndef COMMAND_LINE
+    NSString *podspecSourceString = [[NSString alloc] init];
+
+    // Now for the data models
+    for (ClassBaseObject *base in files) {
+        NSString *importString = [NSString stringWithFormat:@"\'WSGKit/%@.{h,m}\', ", base.className];
+        podspecSourceString = [podspecSourceString stringByAppendingString:importString];
+    }
+
+    podspecSourceString = [self processHeaderForString:podspecSourceString];
+
+    dataModelFileError = nil;
+    [podspecSourceString writeToURL:[url URLByAppendingPathComponent:@"podspecSourceFiles.txt"]
+                    atomically:YES
+                      encoding:NSUTF8StringEncoding
+                         error:&dataModelFileError];
+
+
+
+    if (dataModelFileError) {
+        DLog(@"%@", [dataModelFileError localizedDescription]);
+        filesHaveHadError = YES;
+    }
+#endif
+
+#ifndef COMMAND_LINE
+    NSString *podspecString = [[NSString alloc] init];
+
+    // Now for the data models
+    for (ClassBaseObject *base in files) {
+        NSString *importString = [NSString stringWithFormat:@"\'WSGKit/%@.h\', ", base.className];
+        podspecString = [podspecString stringByAppendingString:importString];
+    }
+
+    podspecString = [self processHeaderForString:podspecString];
+
+    dataModelFileError = nil;
+    [podspecString writeToURL:[url URLByAppendingPathComponent:@"podspecHeaderFiles.txt"]
+                    atomically:YES
+                      encoding:NSUTF8StringEncoding
+                         error:&dataModelFileError];
+
+
+
+    if (dataModelFileError) {
+        DLog(@"%@", [dataModelFileError localizedDescription]);
+        filesHaveHadError = YES;
+    }
+#endif
     
     /* Return the error flag (by reference) */
     *generatedErrorFlag = filesHaveHadError;
