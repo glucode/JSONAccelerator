@@ -649,14 +649,14 @@
         setterString = [setterString stringByAppendingString:[NSString stringWithFormat:@"            self.%@ = ", [property.name lowercaseCamelcaseString]]];
         
         if (property.type == PropertyTypeInt) {
-            setterString = [setterString stringByAppendingFormat:@"[[NSDictionary objectOrNilForKey:%@ fromDictionary:dict] intValue];\n", [self stringConstantForProperty:property]];
+            setterString = [setterString stringByAppendingFormat:@"[[dict objectOrNilForKey:%@] intValue];\n", [self stringConstantForProperty:property]];
         } else if (property.type == PropertyTypeDouble) {
-            setterString = [setterString stringByAppendingFormat:@"[[NSDictionary objectOrNilForKey:%@ fromDictionary:dict] doubleValue];\n", [self stringConstantForProperty:property]];
+            setterString = [setterString stringByAppendingFormat:@"[[dict objectOrNilForKey:%@] doubleValue];\n", [self stringConstantForProperty:property]];
         } else if (property.type == PropertyTypeBool) {
-            setterString = [setterString stringByAppendingFormat:@"[[NSDictionary objectOrNilForKey:%@ fromDictionary:dict] boolValue];\n", [self stringConstantForProperty:property]];
+            setterString = [setterString stringByAppendingFormat:@"[[dict objectOrNilForKey:%@] boolValue];\n", [self stringConstantForProperty:property]];
         } else {
             // It's a normal class type
-            setterString = [setterString stringByAppendingFormat:@"[NSDictionary objectOrNilForKey:%@ fromDictionary:dict];\n", [self stringConstantForProperty:property]];
+            setterString = [setterString stringByAppendingFormat:@"[dict objectOrNilForKey:%@];\n", [self stringConstantForProperty:property]];
         }
     }
     
