@@ -254,7 +254,7 @@
                 if ([classDecription rangeOfString:@"NSCFBoolean"].location != NSNotFound) {
                     tempPropertyObject.type = PropertyTypeBool;
                     tempPropertyObject.semantics = SetterSemanticAssign;
-                } else if (isDouble) {
+                } else if (isDouble && (isInteger && number.integerValue >= 100000)) {
                     tempPropertyObject.type = PropertyTypeDouble;
                     tempPropertyObject.semantics = SetterSemanticAssign;
                 } else if (isInteger) {
