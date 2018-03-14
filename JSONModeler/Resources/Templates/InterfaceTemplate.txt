@@ -1,7 +1,6 @@
 #import <Foundation/Foundation.h>
 #import "JSONSerialization.h"
-{INTERFACE_IMPORT_BLOCK}
-
+{IMPORT_BLOCK}
 @interface {CLASSNAME} : {BASEOBJECT} <NSCoding, NSCopying, JSONSerialization>
 
 {PROPERTIES}

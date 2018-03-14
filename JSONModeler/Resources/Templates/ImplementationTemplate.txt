@@ -1,6 +1,6 @@
 #import "{CLASSNAME}.h"
 #import "NSDictionary+ObjectOrNullForKey.h"
-{IMPORT_BLOCK}
+
 {STRING_CONSTANT_BLOCK}
 @implementation {CLASSNAME}
 

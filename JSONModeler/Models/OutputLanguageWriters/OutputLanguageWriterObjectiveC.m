@@ -261,22 +261,9 @@
     templateString = [self processHeaderForString:templateString];
     
     // First we need to find if there are any class properties, if so do the @Class business
-    NSString *interfaceImports = @"";
+    NSString *importString = [self importStringForClassObject:classObject];
     
-    for (ClassPropertiesObject *property in (classObject.properties).allValues) {
-        if (property.isClass) {
-            if (![interfaceImports isEqualToString:@""]) {
-                interfaceImports = [interfaceImports stringByAppendingString:@"\n"];
-            }
-            interfaceImports = [interfaceImports stringByAppendingFormat:@"#import <WSGKit/%@.h>", property.referenceClass.className];
-        }
-    }
-    
-    if ([interfaceImports isEqualToString:@""] == NO) {
-        interfaceImports = [interfaceImports stringByAppendingString:@";"];        
-    }
-    
-    templateString = [templateString stringByReplacingOccurrencesOfString:@"{INTERFACE_IMPORT_BLOCK}" withString:interfaceImports];
+    templateString = [templateString stringByReplacingOccurrencesOfString:@"{IMPORT_BLOCK}" withString:importString];
     templateString = [templateString stringByReplacingOccurrencesOfString:@"{BASEOBJECT}" withString:classObject.baseClass];
     
     NSString *propertyString = @"";
@@ -289,6 +276,40 @@
     templateString = [templateString stringByReplacingOccurrencesOfString:@"{PROPERTIES}" withString:propertyString];
     
     return templateString;
+}
+
+- (NSString *)import:(NSString *)imports appending:(NSString *)className {
+    NSString *returnString = @"";
+    if (![imports isEqualToString:@""]) {
+        returnString = [imports stringByAppendingString:@"\n"];
+    }
+    returnString = [returnString stringByAppendingFormat:@"#import <WSGKit/%@.h>", className];
+    return returnString;
+}
+
+- (NSString *)importStringForClassObject:(ClassBaseObject *)classObject {
+    NSMutableArray *importArray = [NSMutableArray array];
+    NSString *importString = @"";
+    
+    for (ClassPropertiesObject *property in (classObject.properties).allValues) {
+        if (property.isClass) {
+            [importArray addObject:property.referenceClass.className];
+        }
+        
+        // Check References
+        NSArray *referenceArray = [self setterReferenceClassesForProperty:property];
+        
+        for (NSString *referenceString in referenceArray) {
+            if (![importArray containsObject:referenceString]) {
+                [importArray addObject:referenceString];
+            }
+        }
+    }
+    
+    for (NSString *referenceImport in importArray) {
+        importString = [importString stringByAppendingFormat:@"#import <WSGKit/%@.h>\n", referenceImport];
+    }
+    return importString;
 }
 
 - (NSString *)ObjC_ImplementationFileForClassObject:(ClassBaseObject *)classObject {
@@ -312,27 +333,7 @@
     
     
     // IMPORTS
-    NSMutableArray *importArray = [NSMutableArray array];
-    NSString *importString = @"";
-    
-    for (ClassPropertiesObject *property in (classObject.properties).allValues) {
-        if (property.isClass) {
-            [importArray addObject:property.referenceClass.className];
-        }
-        
-        // Check References
-        NSArray *referenceArray = [self setterReferenceClassesForProperty:property];
-        
-        for (NSString *referenceString in referenceArray) {
-            if (![importArray containsObject:referenceString]) {
-                [importArray addObject:referenceString];
-            }
-        }
-    }
-    
-    for (NSString *referenceImport in importArray) {
-        importString = [importString stringByAppendingFormat:@"#import \"%@.h\"\n", referenceImport];
-    }
+    NSString *importString = [self importStringForClassObject:classObject];
     
     // STRING CONSTANTS
     NSString *stringConstantString = @"";
