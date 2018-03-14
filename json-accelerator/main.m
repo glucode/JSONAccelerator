@@ -16,7 +16,6 @@
 #import <Foundation/Foundation.h>
 #import "JSONModeler.h"
 #import "OutputLanguageWriterObjectiveC.h"
-#import "OutputLanguageWriterJava.h"
 
 @interface JSONHelperMethods : NSObject
 
@@ -33,18 +32,16 @@ int main(int argc, const char *argv[]) {
         // insert code here...        
         NSArray *arguments = [[NSProcessInfo processInfo] arguments];
         
-        
-        
         if ([arguments count] != 4) {
             NSLog(@"Invalid number of arguments");
-            NSLog(@"Usage: json-accelerator (java|objc) (input) (output)");
+            NSLog(@"Usage: json-accelerator (objc) (input) (output)");
             NSLog(@"Example: json-accelerator objc input.json ~/OutputFiles/");
             
             return 0;
         }
         
-        if ( !([arguments[1] isEqualToString:@"objc"] || [arguments[1] isEqualToString:@"java"])) {
-            NSLog(@"Invalid type: output type must by objc or java");
+        if ( !([arguments[1] isEqualToString:@"objc"])) {
+            NSLog(@"Invalid type: output type must by objc");
             
             return 0;
         }
@@ -54,8 +51,6 @@ int main(int argc, const char *argv[]) {
         NSData *jsonData = [NSData dataWithContentsOfFile:urlString
                                                   options:NSDataReadingMappedIfSafe
                                                     error:&error];
-        
-        
         
         if (error) {
             NSLog(@"%@", [error localizedDescription]);
@@ -67,12 +62,6 @@ int main(int argc, const char *argv[]) {
         [helper verifyJSON:jsonData];
         
         OutputLanguage language = OutputLanguageObjectiveC;
-        
-        
-        
-        if ([arguments[1] isEqualToString:@"java"]) {
-            language = OutputLanguageJava;
-        }
         
         [helper generateFilesOfType:language
                          rootFolder:[NSURL URLWithString:arguments[3]]];
@@ -130,16 +119,9 @@ int main(int argc, const char *argv[]) {
         id<OutputLanguageWriterProtocol> writer = nil;
         NSDictionary *optionsDict = nil;
         
-        
-        
         if (language == OutputLanguageObjectiveC) {
             writer = [[OutputLanguageWriterObjectiveC alloc] init];
             optionsDict = @{kObjectiveCWritingOptionUseARC: @(YES)};
-        } else if (language == OutputLanguageJava) {
-            writer = [[OutputLanguageWriterJava alloc] init];
-            optionsDict = @{kJvmWritingOptionBaseClassName: @"BaseClass", kJvmWritingOptionPackageName: @"com.companyname"};
-        } else {
-            // NOT YET SUPPORTED
         }
         
         [self.modeler loadJSONWithString:self.modeler.JSONString
@@ -149,7 +131,6 @@ int main(int argc, const char *argv[]) {
                                                    toURL:selectedDirectory
                                                  options:optionsDict
                                           generatedError:&filesHaveHadError];
-        
     }
 
     

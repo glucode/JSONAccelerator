@@ -27,11 +27,7 @@
 #import "MAAttachedWindow.h"
 
 #import "OutputLanguageWriterObjectiveC.h"
-#import "OutputLanguageWriterJava.h"
 #import "OutputLanguageWriterCoreData.h"
-#import "OutputLanguageWriterDjango.h"
-#import "OutputLanguageWriterPython.h"
-#import "OutputLanguageWriterScalaCaseClass.h"
 
 #import "CoreDataModelGenerator.h"
 
@@ -373,8 +369,6 @@
             BOOL filesHaveBeenWritten = NO;
             BOOL filesHaveHadError = NO;
             
-            
-            
             if (self.modeler) {
                 
                 NSURL *selectedDirectory = (self.panel).URL;
@@ -382,7 +376,6 @@
                 NSDictionary *optionsDict = nil;
                 
                 NSString *baseClassName = (self.languageChooserViewController).baseClassName;
-                JsonLibrary jsonLibrary = (self.languageChooserViewController).chosenJsonLibrary;
                 
                 if (language == OutputLanguageObjectiveC) {
                     NSString *classPrefix = (self.languageChooserViewController).classPrefix;
@@ -401,30 +394,12 @@
                         optionsDict = @{kObjectiveCWritingOptionUseARC: @(self.languageChooserViewController.buildForARC),
                                         kObjectiveCWritingOptionClassPrefix: classPrefix};
                     }
-                } else if (language == OutputLanguageJava) {
-                    writer = [[OutputLanguageWriterJava alloc] init];
-                    optionsDict = baseClassName != nil ? @{kJvmWritingOptionBaseClassName: baseClassName,
-                                                           kJvmWritingOptionPackageName: self.languageChooserViewController.packageName} :
-                                                         @{kJvmWritingOptionPackageName: self.languageChooserViewController.packageName};
-                } else if (language == OutputLanguageScala) {
-                    writer = [[OutputLanguageWriterScalaCaseClass alloc] init];
-                    optionsDict = baseClassName != nil ? @{kJvmWritingOptionBaseClassName: baseClassName,
-                                                           kJvmWritingOptionPackageName: self.languageChooserViewController.packageName,
-                                                           kWritingOptionJsonLibrary: [NSNumber numberWithUnsignedInteger:jsonLibrary]} :
-                                                         @{kJvmWritingOptionPackageName: self.languageChooserViewController.packageName,
-                                                           kWritingOptionJsonLibrary: [NSNumber numberWithUnsignedInteger:jsonLibrary]};
                 } else if (language == OutputLanguageCoreDataObjectiveC) {
                     writer = [[OutputLanguageWriterCoreData alloc] init];
                     
                     if (baseClassName != nil) {
                         optionsDict = @{kCoreDataWritingOptionBaseClassName: baseClassName};
                     }
-                } else if (language == OutputLanguageDjangoPython) {
-                    writer = [[OutputLanguageWriterDjango alloc] init];
-                    optionsDict = @{kDjangoWritingOptionBaseClassName: baseClassName};
-                } else if (language == OutputLanguagePython) {
-                    writer = [[OutputLanguageWriterPython alloc] init];
-                    optionsDict = @{kDjangoWritingOptionBaseClassName: baseClassName};
                 }
                 
                 [self.modeler loadJSONWithString:(self.JSONTextView).string outputLanguageWriter:writer];
@@ -480,14 +455,6 @@
 - (BOOL)panel:(id)sender validateURL:(NSURL *)url error:(NSError *__autoreleasing *)outError {
     
     OutputLanguage language = [self.languageChooserViewController chosenLanguage];
-    // If we're creating java files, and there's no package name, reject
-    if ((language == OutputLanguageJava || language == OutputLanguageScala) &&
-        (self.languageChooserViewController.packageName == nil || [self.languageChooserViewController.packageName isEqual: @""]) ) {
-        NSAlert *alert = [NSAlert alertWithMessageText:@"No Package Name" defaultButton:@"Close" alternateButton:nil otherButton:nil informativeTextWithFormat:@"Please enter a package name."];
-        [alert runModal];
-        
-        return NO;
-    }
     
     // Check to see if we're going to overwrite files
     NSString *filePath = url.path;
@@ -498,10 +465,6 @@
     if (language == OutputLanguageObjectiveC) {
         willOverwriteFiles = willOverwriteFiles || [self doesDuplicateExist:outputObjects atPath:filePath withExtension:@"m"];
         willOverwriteFiles = willOverwriteFiles || [self doesDuplicateExist:outputObjects atPath:filePath withExtension:@"h"];
-    } else if (language == OutputLanguageJava) {
-        willOverwriteFiles = willOverwriteFiles || [self doesDuplicateExist:outputObjects atPath:filePath withExtension:@"java"];
-    } else if (language == OutputLanguageScala) {
-        willOverwriteFiles = willOverwriteFiles || [self doesDuplicateExist:outputObjects atPath:filePath withExtension:@"scala"];
     }
     
     if (willOverwriteFiles) {

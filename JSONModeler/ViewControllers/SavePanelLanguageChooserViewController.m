@@ -36,63 +36,24 @@
 
 - (void)awakeFromNib {
     self.outputLanguageLabel.stringValue = NSLocalizedString(@"Output Language", "In the save portion, the label to choose what language");
-    self.packageNameLabel.stringValue = NSLocalizedString(@"Package Name", "In the save portion, the label to choose what the package is");
     self.baseClassLabel.stringValue = NSLocalizedString(@"Base Class", "In the save portion, the prompt to specify what the base class is");
-    self.buildForArcButton.title = NSLocalizedString(@"Use Automatic Reference Counting", "In the save portion, for objective C, determine whether or not to use ARC");
     self.classPrefixLabel.stringValue = NSLocalizedString(@"Class Prefix", "The letters to prepend to the file");
     
-    self.classPrefixCell.placeholderString = @"NRD";
+    self.classPrefixCell.placeholderString = @"WSG";
     
-    self.javaPanel.hidden = YES;
-    self.jsonLibraryPanel.hidden = YES;
     self.objectiveCPanel.hidden = NO;
 
-    [self.languageDropDown selectItemAtIndex:2];
     [self.languageDropDown selectItemAtIndex:OutputLanguageObjectiveC];
 }
 
 - (IBAction)languagePopUpChanged:(id)sender {
     self.languageDropDown.nextKeyView = self.baseClassField;
     [self.baseClassField becomeFirstResponder];
-    
-    if (_languageDropDownIndex == OutputLanguageJava || _languageDropDownIndex == OutputLanguageScala) {
-        self.javaPanel.hidden = NO;
-        self.jsonLibraryPanel.hidden = _languageDropDownIndex != OutputLanguageScala;
-        self.objectiveCPanel.hidden = YES;
-
-        self.packageNameLabel.hidden = NO;
-        self.packageNameField.hidden = NO;
-        self.buildForArcButton.hidden = YES;
-        self.baseClassField.nextKeyView = self.packageNameField;
-    } else if (_languageDropDownIndex == OutputLanguageObjectiveC) {
-        self.javaPanel.hidden = YES;
-        self.jsonLibraryPanel.hidden = YES;
+    if (_languageDropDownIndex == OutputLanguageObjectiveC) {
         self.objectiveCPanel.hidden = NO;
-        self.buildForArcButton.hidden = NO;
-        
         self.baseClassField.nextKeyView = self.classPrefixField;
     } else {
-        self.javaPanel.hidden = YES;
-        self.jsonLibraryPanel.hidden = YES;
         self.objectiveCPanel.hidden = YES;
-    }
-}
-
-- (JsonLibrary)chosenJsonLibrary {
-    if ([self chosenLanguage] == OutputLanguageScala) {
-        switch (_jsonLibraryDropDownIndex) {
-            case 1:
-                return JsonLibraryScalaPlay;
-                break;
-            case 2:
-                return JsonLibraryScalaAkkaHttpSpray;
-                break;
-            default:
-                return JsonLibraryNone;
-                break;
-        }
-    } else {
-        return -JsonLibraryNone;
     }
 }
 
@@ -100,15 +61,7 @@
     if (_languageDropDownIndex == OutputLanguageObjectiveC) {
         return OutputLanguageObjectiveC;
     } else if (_languageDropDownIndex == 1) {
-        return OutputLanguageJava;
-    } else if (_languageDropDownIndex == 2) {
         return OutputLanguageCoreDataObjectiveC;
-    } else if (_languageDropDownIndex == 3) {
-        return OutputLanguageDjangoPython;
-    } else if (_languageDropDownIndex == 4) {
-        return OutputLanguagePython;
-    } else if (_languageDropDownIndex == 5) {
-        return OutputLanguageScala;
     } else {
         return -1;
     }

@@ -17,7 +17,6 @@
 #import "ClassPropertiesObject.h"
 #import "NSString+Nerdery.h"
 #import "OutputLanguageWriterObjectiveC.h"
-#import "OutputLanguageWriterJava.h"
 
 @interface ClassBaseObject ()
 
@@ -38,12 +37,8 @@
 - (NSDictionary *)outputStringsWithType:(OutputLanguage)type  {
     id<OutputLanguageWriterProtocol> writer = nil;
     
-    
-    
     if (type == OutputLanguageObjectiveC) {
         writer = [OutputLanguageWriterObjectiveC new];
-    } else if (type == OutputLanguageJava) {
-        writer = [OutputLanguageWriterJava new];
     }
     
     return [writer getOutputFilesForClassObject:self];
