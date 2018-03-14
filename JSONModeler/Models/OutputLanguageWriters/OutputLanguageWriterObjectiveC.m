@@ -686,6 +686,19 @@
 
 - (NSString *)typeStringForProperty:(ClassPropertiesObject *)property {
     switch (property.type) {
+        case PropertyTypeArray:
+            return [NSString stringWithFormat:@"NSArray<%@ *>", [self arrayTypeForProperty:property]];
+            break;
+        case PropertyTypeClass:
+            return property.referenceClass.className;
+            break;
+        default:
+            return [self typeStringForPrimitiveType:property.type];
+    }
+}
+
+- (NSString *)typeStringForPrimitiveType:(PropertyType) type {
+    switch (type) {
         case PropertyTypeString:
             return @"NSString";
             break;
@@ -705,15 +718,17 @@
             return @"double";
             break;
         case PropertyTypeClass:
-            return property.referenceClass.className;
-            break;
         case PropertyTypeOther:
             return @"id";
             break;
-            
-        default:
-            break;
     }
+}
+
+- (NSString *)arrayTypeForProperty:(ClassPropertiesObject *)property {
+    if (property.collectionTypeString != nil) {
+        return property.collectionTypeString;
+    }
+    return [self typeStringForPrimitiveType:property.collectionType];
 }
 
 - (NSString *)stringConstantForProperty:(ClassPropertiesObject *)property {

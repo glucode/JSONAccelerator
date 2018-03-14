@@ -158,8 +158,6 @@
             BOOL isReservedWord;
             NSString *tempPropertyName = [[currentKey alphanumericStringIsReservedWord:&isReservedWord fromReservedWordSet:[writer reservedWords]] uncapitalizeFirstCharacter];
             
-            
-            
             if (isReservedWord) {
                 tempPropertyName = [writer propertyNameForObject:tempPropertyObject inClass:tempClass fromReservedWord:tempPropertyName];
             }
@@ -178,12 +176,9 @@
             
             BOOL shouldSetObject = YES;
             
-            
-            
             if (tempClass.properties[currentKey]) {
                 shouldSetObject = NO;
             }
-            
             
             if ([tempObject isKindOfClass:[NSArray class]]) {
                 // NSArray Objects
@@ -211,9 +206,7 @@
                     } else {
                         // Miscellaneous
                         NSString *classDecription = [[tempArrayObject class] description];
-                        
-                        
-                        
+
                         if ([classDecription rangeOfString:@"NSCFNumber"].location != NSNotFound) {
                             tempPropertyObject.collectionType = PropertyTypeInt;
                         } else if ([classDecription rangeOfString:@"NSDecimalNumber"].location != NSNotFound) {
