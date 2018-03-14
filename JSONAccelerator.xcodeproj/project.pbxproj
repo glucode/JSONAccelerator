@@ -579,9 +579,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		4423310A149B9E290071978D /* JSON Accelerator */ = {
+		4423310A149B9E290071978D /* JSON Accelerator for WSGKit */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4423313A149B9E290071978D /* Build configuration list for PBXNativeTarget "JSON Accelerator" */;
+			buildConfigurationList = 4423313A149B9E290071978D /* Build configuration list for PBXNativeTarget "JSON Accelerator for WSGKit" */;
 			buildPhases = (
 				F30C6AA9BA67611F2B2A33F2 /* [CP] Check Pods Manifest.lock */,
 				4423310B149B9E290071978D /* Sources */,
@@ -595,7 +595,7 @@
 			);
 			dependencies = (
 			);
-			name = "JSON Accelerator";
+			name = "JSON Accelerator for WSGKit";
 			productName = JSONModeler;
 			productReference = 4423313D149B9E290071978D /* JSON Accelerator.app */;
 			productType = "com.apple.product-type.application";
@@ -649,7 +649,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				4423310A149B9E290071978D /* JSON Accelerator */,
+				4423310A149B9E290071978D /* JSON Accelerator for WSGKit */,
 				44E17C6D16719F1200945E6D /* json-accelerator */,
 			);
 		};
@@ -973,7 +973,7 @@
 				INFOPLIST_PREPROCESS = NO;
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.nerdery.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "JSON Accelerator";
+				PRODUCT_NAME = "JSON Accelerator for WSGKit";
 				WARNING_CFLAGS = "-Wno-arc-performSelector-leaks";
 				WRAPPER_EXTENSION = app;
 			};
@@ -991,7 +991,7 @@
 				INFOPLIST_PREPROCESS = NO;
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.nerdery.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "JSON Accelerator";
+				PRODUCT_NAME = "JSON Accelerator for WSGKit";
 				WARNING_CFLAGS = "-Wno-arc-performSelector-leaks";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1047,7 +1047,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4423313A149B9E290071978D /* Build configuration list for PBXNativeTarget "JSON Accelerator" */ = {
+		4423313A149B9E290071978D /* Build configuration list for PBXNativeTarget "JSON Accelerator for WSGKit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4423313B149B9E290071978D /* Debug */,
