@@ -123,7 +123,7 @@
 		441FC5101462D8E1007BF9DC /* JSONModelerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JSONModelerTests.m; sourceTree = "<group>"; };
 		441FC5241462DBF6007BF9DC /* JSONFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONFetcher.h; path = ModelController/JSONFetcher.h; sourceTree = "<group>"; };
 		441FC5251462DBF6007BF9DC /* JSONFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = JSONFetcher.m; path = ModelController/JSONFetcher.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		4423313D149B9E290071978D /* JSON Accelerator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "JSON Accelerator.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4423313D149B9E290071978D /* JSON Accelerator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = "JSON Accelerator.app"; path = "JSON Accelerator for WSGKit.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		44233143149BA0760071978D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		4426908D14DA052900C16CBD /* IOKit.framework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		4426908F14DA053C00C16CBD /* Security.framework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
