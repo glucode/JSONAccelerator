@@ -24,6 +24,7 @@
 @interface OutputLanguageWriterObjectiveC ()
 
 @property (nonatomic, assign) BOOL buildForARC;
+@property (nonatomic, strong) NSString *prefix;
 
 - (NSString *)ObjC_HeaderFileForClassObject:(ClassBaseObject *)classObject;
 - (NSString *)ObjC_ImplementationFileForClassObject:(ClassBaseObject *)classObject;
@@ -85,6 +86,7 @@
         
         if (nil != options[kObjectiveCWritingOptionClassPrefix]) {
             newBaseClassName = [NSString stringWithFormat:@"%@%@", options[kObjectiveCWritingOptionClassPrefix], newBaseClassName ];
+            self.prefix = options[kObjectiveCWritingOptionClassPrefix];
         }
         
         base.className = newBaseClassName;
@@ -276,15 +278,6 @@
     templateString = [templateString stringByReplacingOccurrencesOfString:@"{PROPERTIES}" withString:propertyString];
     
     return templateString;
-}
-
-- (NSString *)import:(NSString *)imports appending:(NSString *)className {
-    NSString *returnString = @"";
-    if (![imports isEqualToString:@""]) {
-        returnString = [imports stringByAppendingString:@"\n"];
-    }
-    returnString = [returnString stringByAppendingFormat:@"#import <WSGKit/%@.h>", className];
-    return returnString;
 }
 
 - (NSString *)importStringForClassObject:(ClassBaseObject *)classObject {
@@ -727,7 +720,7 @@
 
 - (NSString *)arrayTypeForProperty:(ClassPropertiesObject *)property {
     if (property.collectionTypeString != nil) {
-        return property.collectionTypeString;
+        return [NSString stringWithFormat:@"%@%@", self.prefix, property.collectionTypeString];
     }
     return [self typeStringForPrimitiveType:property.collectionType];
 }
