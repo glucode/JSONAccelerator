@@ -261,23 +261,22 @@
     templateString = [self processHeaderForString:templateString];
     
     // First we need to find if there are any class properties, if so do the @Class business
-    NSString *forwardDeclarationString = @"";
+    NSString *interfaceImports = @"";
     
     for (ClassPropertiesObject *property in (classObject.properties).allValues) {
         if (property.isClass) {
-            if ([forwardDeclarationString isEqualToString:@""]) {
-                forwardDeclarationString = [NSString stringWithFormat:@"@class %@", property.referenceClass.className]; 
-            } else {
-                forwardDeclarationString = [forwardDeclarationString stringByAppendingFormat:@", %@", property.referenceClass.className];
+            if (![interfaceImports isEqualToString:@""]) {
+                interfaceImports = [interfaceImports stringByAppendingString:@"\n"];
             }
+            interfaceImports = [interfaceImports stringByAppendingFormat:@"#import <WSGKit/%@.h>", property.referenceClass.className];
         }
     }
     
-    if ([forwardDeclarationString isEqualToString:@""] == NO) {
-        forwardDeclarationString = [forwardDeclarationString stringByAppendingString:@";"];        
+    if ([interfaceImports isEqualToString:@""] == NO) {
+        interfaceImports = [interfaceImports stringByAppendingString:@";"];        
     }
     
-    templateString = [templateString stringByReplacingOccurrencesOfString:@"{FORWARD_DECLARATION}" withString:forwardDeclarationString];
+    templateString = [templateString stringByReplacingOccurrencesOfString:@"{INTERFACE_IMPORT_BLOCK}" withString:interfaceImports];
     templateString = [templateString stringByReplacingOccurrencesOfString:@"{BASEOBJECT}" withString:classObject.baseClass];
     
     NSString *propertyString = @"";
