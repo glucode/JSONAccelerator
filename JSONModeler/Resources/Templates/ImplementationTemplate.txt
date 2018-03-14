@@ -1,13 +1,10 @@
 #import "{CLASSNAME}.h"
 #import "NSDictionary+ObjectOrNullForKey.h"
 {IMPORT_BLOCK}
-
 {STRING_CONSTANT_BLOCK}
-
 @implementation {CLASSNAME}
 
 {SYNTHESIZE_BLOCK}
-
 + (instancetype)modelObjectWithDictionary:(NSDictionary *)dict {
     return [[self alloc] initWithDictionary:dict];
 }
@@ -18,11 +15,10 @@
     // This check serves to make sure that a non-NSDictionary object
     // passed into the model class doesn't break the parsing.
     if (self && [dict isKindOfClass:[NSDictionary class]]) {
-{SETTERS}
+    {SETTERS}
     }
-    
+
     return self;
-    
 }
 
 - (NSDictionary *)dictionaryRepresentation {
@@ -40,25 +36,20 @@
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super init];
 {INITWITHCODER}
+
     return self;
 }
 
-- (void)encodeWithCoder:(NSCoder *)aCoder
-{
-{ENCODEWITHCODER}
+- (void)encodeWithCoder:(NSCoder *)aCoder {{ENCODEWITHCODER}
 }
 
 - (id)copyWithZone:(NSZone *)zone {
     {CLASSNAME} *copy = [[{CLASSNAME} alloc] init];
-    
-    
-    
-    if (copy) {
-{COPYWITHZONE}
+
+    if (copy) {{COPYWITHZONE}
     }
     
     return copy;
 }
-
 {DEALLOC}
 @end

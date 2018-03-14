@@ -6,5 +6,4 @@
 @interface {CLASSNAME} : {BASEOBJECT} <NSCoding, NSCopying, JSONSerialization>
 
 {PROPERTIES}
-
 @end
