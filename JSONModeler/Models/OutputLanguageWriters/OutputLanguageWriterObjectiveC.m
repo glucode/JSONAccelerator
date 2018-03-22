@@ -28,7 +28,6 @@
 
 - (NSString *)ObjC_HeaderFileForClassObject:(ClassBaseObject *)classObject;
 - (NSString *)ObjC_ImplementationFileForClassObject:(ClassBaseObject *)classObject;
-- (NSString *)processHeaderForString:(NSString *)unprocessedString;
 
 @end
 
@@ -157,8 +156,6 @@
         templateString = [templateString stringByAppendingString:importString];
     }
     
-    templateString = [self processHeaderForString:templateString];
-    
     NSError *dataModelFileError = nil;
     [templateString writeToURL:[url URLByAppendingPathComponent:@"DataModels.h"]
                     atomically:YES
@@ -182,8 +179,6 @@
         podspecSourceString = [podspecSourceString stringByAppendingString:importString];
     }
 
-    podspecSourceString = [self processHeaderForString:podspecSourceString];
-
     dataModelFileError = nil;
     [podspecSourceString writeToURL:[url URLByAppendingPathComponent:@"podspecSourceFiles.txt"]
                     atomically:YES
@@ -206,8 +201,6 @@
         NSString *importString = [NSString stringWithFormat:@"\'WSGKit/%@.h\', ", base.className];
         podspecString = [podspecString stringByAppendingString:importString];
     }
-
-    podspecString = [self processHeaderForString:podspecString];
 
     dataModelFileError = nil;
     [podspecString writeToURL:[url URLByAppendingPathComponent:@"podspecHeaderFiles.txt"]
@@ -259,8 +252,6 @@
     dateFormatter.dateStyle = NSDateFormatterShortStyle;
     
     templateString = [templateString stringByReplacingOccurrencesOfString:@"{DATE}" withString:[dateFormatter stringFromDate:currentDate]];
-    
-    templateString = [self processHeaderForString:templateString];
     
     // First we need to find if there are any class properties, if so do the @Class business
     NSString *importString = [self importStringForClassObject:classObject];
@@ -442,52 +433,6 @@
     templateString = [templateString stringByReplacingOccurrencesOfString:@"{COPYWITHZONE}" withString:nsCopyingString];
     templateString = [templateString stringByReplacingOccurrencesOfString:@"{DEALLOC}" withString:deallocString];
     templateString = [templateString stringByReplacingOccurrencesOfString:@"{CLASSNAME}" withString:classObject.className];
-    
-    templateString = [self processHeaderForString:templateString];
-    
-    return templateString;
-}
-
-- (NSString *)processHeaderForString:(NSString *)unprocessedString {
-    NSString *templateString = [unprocessedString copy];
-    NSDate *currentDate = [NSDate date];
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    dateFormatter.dateStyle = NSDateFormatterShortStyle;
-    
-    /* Set the name and company values in the template from the current logged in user's address book information */
-#ifndef COMMAND_LINE
-    ABAddressBook *addressBook = [ABAddressBook sharedAddressBook];
-    ABPerson *me = [addressBook me];
-    NSString *meFirstName = [me valueForProperty:kABFirstNameProperty];
-    NSString *meLastName = [me valueForProperty:kABLastNameProperty];
-    NSString *meCompany = [me valueForProperty:kABOrganizationProperty];
-#else
-    NSString *meFirstName = @"";
-    NSString *meLastName = @"";
-    NSString *meCompany = @"";
-#endif
-    
-    if (meFirstName == nil) {
-        meFirstName = @"";
-    }
-    
-    if (meLastName == nil) {
-        meLastName = @"";
-    }
-    
-    if (meCompany == nil) {
-        meCompany = @"__MyCompanyName__";
-    }
-
-    templateString = [templateString stringByReplacingOccurrencesOfString:@"__NAME__" withString:[NSString stringWithFormat:@"%@ %@", meFirstName, meLastName]];
-    
-    NSString *companyReplacement = [NSString stringWithFormat:@"%@ %@", [currentDate descriptionWithCalendarFormat:@"%Y" timeZone:nil locale:nil], meCompany];
-    templateString = [templateString stringByReplacingOccurrencesOfString:@"{COMPANY_NAME}"
-                                                               withString:companyReplacement];
-    
-    /* Set other template strings */
-    templateString = [templateString stringByReplacingOccurrencesOfString:@"{DATE}"
-                                                               withString:[dateFormatter stringFromDate:currentDate]];
     
     return templateString;
 }
