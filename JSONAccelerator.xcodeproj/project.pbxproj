@@ -64,6 +64,7 @@
 		7DC99D2114A26D8900314AA5 /* ModelerDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DC99D1E14A26D8900314AA5 /* ModelerDocument.m */; };
 		7E7110921CCC4C40006EF1CD /* DefaultOutputLanguageWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E7110911CCC4C40006EF1CD /* DefaultOutputLanguageWriter.m */; };
 		7E7110971CCEF55C006EF1CD /* DefaultOutputLanguageWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E7110911CCC4C40006EF1CD /* DefaultOutputLanguageWriter.m */; };
+		9B7FF58420640021002D3F9C /* RootArrayTemplate.txt in Resources */ = {isa = PBXBuildFile; fileRef = 9B7FF58320640021002D3F9C /* RootArrayTemplate.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -214,6 +215,7 @@
 		7DC99D1E14A26D8900314AA5 /* ModelerDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ModelerDocument.m; path = Documents/ModelerDocument.m; sourceTree = "<group>"; };
 		7E7110901CCC4C40006EF1CD /* DefaultOutputLanguageWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DefaultOutputLanguageWriter.h; path = Models/OutputLanguageWriters/DefaultOutputLanguageWriter.h; sourceTree = "<group>"; };
 		7E7110911CCC4C40006EF1CD /* DefaultOutputLanguageWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DefaultOutputLanguageWriter.m; path = Models/OutputLanguageWriters/DefaultOutputLanguageWriter.m; sourceTree = "<group>"; };
+		9B7FF58320640021002D3F9C /* RootArrayTemplate.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = RootArrayTemplate.txt; path = Resources/Templates/RootArrayTemplate.txt; sourceTree = "<group>"; };
 		C9C003DA652F830D94B70023 /* Pods-json-accelerator.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-json-accelerator.debug.xcconfig"; path = "Pods/Target Support Files/Pods-json-accelerator/Pods-json-accelerator.debug.xcconfig"; sourceTree = "<group>"; };
 		CC6FAA4DD08944659C3B3970 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -483,6 +485,7 @@
 				4490E89E169241D9007B4FBC /* DataModelsTemplate.txt */,
 				445F441E15328B7C00E501F6 /* DictionaryRepresentationArrayTemplate.txt */,
 				448B108F1487EAF800BEE605 /* ArraySetterTemplate.txt */,
+				9B7FF58320640021002D3F9C /* RootArrayTemplate.txt */,
 			);
 			name = Templates;
 			sourceTree = "<group>";
@@ -661,6 +664,7 @@
 				440BCC411CC138AC00F6B37D /* Images.xcassets in Resources */,
 				445F442015328B7C00E501F6 /* DictionaryRepresentationArrayTemplate.txt in Resources */,
 				4490E8A0169241D9007B4FBC /* DataModelsTemplate.txt in Resources */,
+				9B7FF58420640021002D3F9C /* RootArrayTemplate.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

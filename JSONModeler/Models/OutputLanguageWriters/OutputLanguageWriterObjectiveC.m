@@ -171,6 +171,31 @@
 #endif
 
 #ifndef COMMAND_LINE
+    NSString *arrayAtRootString = [[NSString alloc] init];
+    
+    NSString *rootClassName = [NSString stringWithFormat:@"%@%@", options[kObjectiveCWritingOptionClassPrefix], options[kObjectiveCWritingOptionBaseClassName]];
+    for (ClassBaseObject *base in files) {
+        if ([base.className isEqualToString:rootClassName]) {
+            arrayAtRootString = [self ObjC_RootArrayFileForClassObject:base];
+            break;
+        }
+    }
+    
+    dataModelFileError = nil;
+    [arrayAtRootString writeToURL:[url URLByAppendingPathComponent:@"ArrayAtRoot.m"]
+                       atomically:YES
+                         encoding:NSUTF8StringEncoding
+                            error:&dataModelFileError];
+    
+    
+    
+    if (dataModelFileError) {
+        DLog(@"%@", [dataModelFileError localizedDescription]);
+        filesHaveHadError = YES;
+    }
+#endif
+    
+#ifndef COMMAND_LINE
     NSString *podspecSourceString = [[NSString alloc] init];
 
     // Now for the data models
@@ -606,6 +631,17 @@
     }
     
     return setterString;
+}
+
+- (NSString *)ObjC_RootArrayFileForClassObject:(ClassBaseObject *)classObject {
+    NSBundle *mainBundle = [NSBundle mainBundle];
+    
+    NSString *interfaceTemplate = [mainBundle pathForResource:@"RootArrayTemplate" ofType:@"txt"];
+    NSString *templateString = [[NSString alloc] initWithContentsOfFile:interfaceTemplate encoding:NSUTF8StringEncoding error:nil];
+    
+    templateString = [templateString stringByReplacingOccurrencesOfString:@"{REFERENCE_CLASS}" withString:classObject.className];
+    
+    return templateString;
 }
 
 - (NSString *)getterForProperty:(ClassPropertiesObject *)property {

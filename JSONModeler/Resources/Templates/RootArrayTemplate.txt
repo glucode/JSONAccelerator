@@ -1,0 +1,11 @@
+    NSMutableArray *parsed{REFERENCE_CLASS} = [NSMutableArray array];
+
+    if ([response isKindOfClass:[NSArray class]]) {
+        for (NSDictionary *item in (NSArray *)response) {
+            if ([item isKindOfClass:[NSDictionary class]]) {
+                [parsed{REFERENCE_CLASS} addObject:[{REFERENCE_CLASS} modelObjectWithDictionary:item]];
+            }
+       }
+    }
+
+    return [parsed{REFERENCE_CLASS} copy];
